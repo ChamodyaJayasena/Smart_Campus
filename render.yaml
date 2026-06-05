@@ -1,12 +1,11 @@
 services:
-  # Spring Boot Backend Web Service
+  # Unified Web Service (Frontend and Backend served together)
   - type: web
-    name: smart-campus-backend
+    name: smart-campus
     env: java
     plan: free
-    buildCommand: mvn clean package -DskipTests
-    startCommand: java -jar target/smart-campus-backend-0.0.1-SNAPSHOT.jar
-    rootDir: backend
+    buildCommand: bash build.sh
+    startCommand: java -jar backend/target/smart-campus-backend-0.0.1-SNAPSHOT.jar
     envVars:
       - key: MONGODB_URI
         sync: false
@@ -22,23 +21,4 @@ services:
       - key: ADMIN_PASSWORD
         value: admin123
       - key: FRONTEND_BASE_URL
-        sync: false
-        description: "The full URL of your deployed frontend (e.g., https://smart-campus-frontend.onrender.com)"
-
-  # React Frontend Static Site
-  - type: static
-    name: smart-campus-frontend
-    plan: free
-    buildCommand: npm install && npm run build
-    publishPath: dist
-    rootDir: frontend
-    envVars:
-      - key: VITE_API_BASE_URL
-        sync: false
-        description: "The full backend API URL (e.g., https://smart-campus-backend.onrender.com/api)"
-      - key: VITE_OAUTH_USER_URL
-        sync: false
-        description: "Google OAuth user endpoint (e.g., https://smart-campus-backend.onrender.com/api/auth/google/user)"
-      - key: VITE_OAUTH_TECH_URL
-        sync: false
-        description: "Google OAuth technician endpoint (e.g., https://smart-campus-backend.onrender.com/api/auth/google/technician)"
+        fromEnvVar: RENDER_EXTERNAL_URL

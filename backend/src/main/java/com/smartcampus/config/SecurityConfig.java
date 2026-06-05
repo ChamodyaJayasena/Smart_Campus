@@ -46,9 +46,15 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
+                        // Permit static assets and images
+                        .requestMatchers("/", "/index.html", "/assets/**", "/*.png", "/*.ico", "/*.svg", "/favicon.ico").permitAll()
+                        // Permit React SPA routes
+                        .requestMatchers("/home", "/login", "/signup", "/admin-login", "/dashboard", "/technician", "/admin").permitAll()
+                        // Public API endpoints
                         .requestMatchers("/api/home/**", "/api/resources/public").permitAll()
                         .requestMatchers("/api/auth/google/**", "/api/auth/admin/login").permitAll()
                         .requestMatchers("/api/auth/**", "/oauth2/**", "/login/**", "/error").permitAll()
+                        // Protected API endpoints
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/technician/**").hasRole("TECHNICIAN")
                         .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")

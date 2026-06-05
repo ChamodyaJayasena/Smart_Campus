@@ -8,6 +8,9 @@ services:
       - key: MONGODB_URI
         sync: false
         description: "MongoDB Atlas connection string (e.g., mongodb+srv://...)"
+      - key: MONGODB_DATABASE
+        value: smart_campus
+        description: "MongoDB Database Name"
       - key: GOOGLE_CLIENT_ID
         sync: false
         description: "Google OAuth2 Client ID"

@@ -1,11 +1,9 @@
 services:
-  # Unified Web Service (Frontend and Backend served together)
+  # Unified Web Service (Frontend and Backend served together via Docker)
   - type: web
     name: smart-campus
-    env: java
+    runtime: docker
     plan: free
-    buildCommand: bash build.sh
-    startCommand: java -jar backend/target/smart-campus-backend-0.0.1-SNAPSHOT.jar
     envVars:
       - key: MONGODB_URI
         sync: false
@@ -20,5 +18,3 @@ services:
         value: admin
       - key: ADMIN_PASSWORD
         value: admin123
-      - key: FRONTEND_BASE_URL
-        fromEnvVar: RENDER_EXTERNAL_URL
